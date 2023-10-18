@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<body>
+    <h1>I am {{pageName}} Page</h1>
+
+    <form action="/add-todo" method="POST">
+        <input type="text" name="todo" placeholder="Add Todo" />
+        <button type="submit">Add Todo</button>
+    </form>
+
+    <h3>Todos:</h3>
+
+    <ul class="todos"></ul>
+
+    <script>
+        const getTodos = async () => {
+            const res = await fetch("http://localhost:3000/api/todos")
+            const result = await res.json()
+            fetchTodos(result)
+        }
+        const fetchTodos = (todosData) => {
+            const todos = document.querySelector(".todos")
+            if (todosData) {
+                todosData.map((data) => {
+                    todos.innerHTML += `<li>${data.todo}</li>`
+                })
+            }
+        }
+        getTodos()
+    </script>
+</body>
+
+</html>
