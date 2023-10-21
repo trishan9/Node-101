@@ -1,0 +1,21 @@
+<ol class="contact-list">
+   
+</ol>
+
+
+<script>
+    const contactList = document.querySelector(".contact-list")
+    const getContacts = async () => {
+        const res = await fetch ("http://localhost:3000/contacts")
+        const result = await res.json()
+        fetchHtml(result)
+    }
+
+    const fetchHtml = (datas) => {
+        datas.forEach((data) => {
+            contactList.innerHTML += `<li><ul><li>Name: ${data.name}</li><li>Number: ${data.number}</li></ul></li>`
+        })
+    }
+
+    getContacts()
+</script>
