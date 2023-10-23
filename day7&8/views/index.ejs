@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/style.css">
+    <title>Home Page</title>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <a href="/">
+                <li>Products</li>
+            </a>
+
+            <a href="/add-product">
+                <li>Add Product</li>
+            </a>
+        </ul>
+    </nav>
+
+    <main>
+        <% if (products.length> 0) { %>
+            <h1>Products</h1>
+
+            <div class="product-main">
+                <% products.forEach((product)=> { %>
+                    <div class="product">
+                        <p class="title">
+                            <%=product.title%>
+                        </p>
+
+                        <p class="price">
+                            Price:
+                            $<%=product.price%>
+                        </p>
+
+                        <img src=<%=product.thumbnail%> />
+                    </div>
+                    <% }) %>
+            </div>
+            <% } else { %>
+                <h1>No Products!</h1>
+                <% } %>
+    </main>
+</body>
+
+</html>
