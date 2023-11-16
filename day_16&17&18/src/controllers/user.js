@@ -19,12 +19,20 @@ const getAllUsers = async (req, res) => {
         currentPage: page,
         data: [...data]
     }
+    // console.log(req.cookies)
+    // res.clearCookie("user")
+    console.log(req.session.user)
+    console.log(req.session.name)
+    req.session.destroy()
     res.json(fullData)
 }
 
 const getUser = async (req, res) => {
     const { id } = req.params
     const data = await User.findById(id, "-__v")
+    // res.cookie("user", data)
+    req.session.user = data
+    req.session.name = "Trishan"
     res.json(data)
 }
 
