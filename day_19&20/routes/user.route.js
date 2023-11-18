@@ -1,10 +1,21 @@
 const express = require("express")
 const bcrypt = require("bcrypt")
+// const nodemailer = require("nodemailer")
+// const sendgridTransport = require("nodemailer-sendgrid-transport")
+const sgMail = require("@sendgrid/mail")
+require("dotenv").config()
 
 const User = require("../models/user.model")
 const isAuthenticated = require("../middlewares/auth")
 
 const userRouter = express.Router()
+
+// const transporter = nodemailer.createTransport(sendgridTransport({
+//     auth: {
+//         api_key: process.env.SENDGRID_API_KEY
+//     }
+// }))
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 userRouter.post("/register", async (req, res) => {
     const { name, email, password } = req.body
@@ -18,6 +29,16 @@ userRouter.post("/register", async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 12)
         const data = await User.create({ name, email, password: hashedPassword })
         res.send(data)
+        const msg = {
+            from: "mailtotrishan@gmail.com",
+            to: data.email,
+            subject: "Welcome onboard!",
+            html: `<h1>Welcome to our App Mr. ${data.name}, Glad that you registered!</h1>`,
+            text: `Welcome to our App Mr. ${data.name}, Glad that you registered!`
+        }
+        // await transporter.sendMail(msg)
+        await sgMail.send(msg)
+
     } catch {
         res.send({ error: "Some error occured!" })
     }
