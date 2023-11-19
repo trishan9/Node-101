@@ -33,11 +33,6 @@ postRouter.get("/:id", isAuthenticated, async (req, res) => {
     res.json(data)
 })
 
-postRouter.get("/all", isAuthenticated, async (req, res) => {
-    const data = await Post.findAll({ include: User })
-    res.json(data)
-})
-
 postRouter.patch("/:id", isAuthenticated, async (req, res) => {
     const { params: { id }, body } = req
     const data = await Post.update({ ...body }, { where: { id: id } })
